@@ -12,7 +12,7 @@ DATABASE_URL = (
 )
 
 engine = create_engine(DATABASE_URL)
-Sessionlocal = sessionmaker(
+SessionLocal = sessionmaker(
     bind = engine,
     autocommit = False,
     autoflush = False,
