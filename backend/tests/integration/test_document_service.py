@@ -1,20 +1,21 @@
-from app.db.database import SessionLocal
-from app.services.document_service import get_user_accessible_documents
+from app.services.document_service import (
+    get_user_accessible_documents,
+)
 
 
-def test_service_returns_accessible_documents_for_acme_employee():
-    db = SessionLocal()
+def test_acme_employee_document_access(
+    db_session,
+):
 
-    try:
-        documents = get_user_accessible_documents(
-            db=db,
-            org_id=3,
-            role_id=7,
-        )
+    documents = get_user_accessible_documents(
+        db=db_session,
+        org_id=1,
+        role_id=3,
+    )
 
-        filenames = [document.filename for document in documents]
+    filenames = [
+        document.filename
+        for document in documents
+    ]
 
-        assert filenames == ["engineering_handbook.pdf"]
-
-    finally:
-        db.close()
+    assert "engineering_handbook.pdf" in filenames

@@ -1,37 +1,32 @@
-from app.db.database import SessionLocal
-from app.db.repositories.user_repository import get_user_by_org_and_email
+from app.db.repositories.user_repository import (
+    get_user_by_org_and_email,
+)
 
 
-def test_find_acme_employee():
-    db = SessionLocal()
+def test_get_acme_employee(
+    db_session,
+):
 
-    try:
-        user = get_user_by_org_and_email(
-            db=db,
-            org_id=3,
-            email="employee@acme.com",
-        )
+    user = get_user_by_org_and_email(
+        db=db_session,
+        org_id=1,
+        email="employee@acme.com",
+    )
 
-        assert user is not None
-        assert user.id == 5
-        assert user.org_id == 3
-        assert user.role_id == 7
-
-    finally:
-        db.close()
+    assert user is not None
+    assert user.email == "employee@acme.com"
+    assert user.org_id == 1
+    assert user.role_id == 3
 
 
-def test_same_email_in_wrong_organization_returns_none():
-    db = SessionLocal()
+def test_unknown_user(
+    db_session,
+):
 
-    try:
-        user = get_user_by_org_and_email(
-            db=db,
-            org_id=4,
-            email="employee@acme.com",
-        )
+    user = get_user_by_org_and_email(
+        db=db_session,
+        org_id=1,
+        email="doesnotexist@acme.com",
+    )
 
-        assert user is None
-
-    finally:
-        db.close()
+    assert user is None

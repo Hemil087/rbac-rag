@@ -3,8 +3,9 @@ from sqlalchemy.orm import Session
 
 from app.core.security import create_access_token
 from app.db.database import SessionLocal
-from app.schemas.auth import LoginRequest, TokenResponse
+from app.schemas.auth import LoginRequest, TokenResponse, CurrentUser
 from app.services.auth_service import authenticate_user
+from app.api.dependencies import get_current_user
 
 
 router = APIRouter(
@@ -43,3 +44,9 @@ def login(
         token_type = "bearer",
     )
 
+
+@router.get("/me")
+def get_me(
+    current_user: CurrentUser = Depends(get_current_user),
+):
+    return current_user
