@@ -5,3 +5,6 @@ psycopg[binary]
 alembic
 pgvector
 pytest
+pwdlib[argon2]
+python-jose[cryptography]
+email-validator

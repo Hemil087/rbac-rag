@@ -12,6 +12,11 @@ class Organization(Base):
 
     id: Mapped[int]=mapped_column(primary_key=True)
     name: Mapped[str] = mapped_column(String(255),nullable=False)
+    email_domain: Mapped[str] = mapped_column(
+        String(255),
+        nullable=False,
+        unique=True,
+    )
     created_at: Mapped[datetime] = mapped_column(DateTime,default=lambda: datetime.now(timezone.utc),nullable = False)
 
 #defining Role table

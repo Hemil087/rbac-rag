@@ -1,7 +1,7 @@
 from datetime import datetime, timezone
 
 from sqlalchemy import select
-
+from app.core.security import hash_password
 from app.db.database import SessionLocal
 from app.db.models import (
     Organization,
@@ -26,11 +26,13 @@ def seed_database():
         acme = Organization(
             name="Acme Corporation",
             created_at=datetime.now(timezone.utc),
+            email_domain="acme.com",
         )
 
         globex = Organization(
             name="Globex Corporation",
             created_at=datetime.now(timezone.utc),
+            email_domain="globex.com",
         )
 
         db.add_all([acme, globex])
@@ -99,7 +101,7 @@ def seed_database():
             org_id=acme.id,
             role_id=acme_admin.id,
             email="admin@acme.com",
-            hashed_password="dummy_hash_admin",
+            hashed_password=hash_password("admin123"),
             created_at=datetime.now(timezone.utc),
         )
 
@@ -107,7 +109,7 @@ def seed_database():
             org_id=acme.id,
             role_id=acme_manager.id,
             email="manager@acme.com",
-            hashed_password="dummy_hash_manager",
+            hashed_password=hash_password("manager123"),
             created_at=datetime.now(timezone.utc),
         )
 
@@ -115,7 +117,7 @@ def seed_database():
             org_id=acme.id,
             role_id=acme_employee.id,
             email="employee@acme.com",
-            hashed_password="dummy_hash_employee",
+            hashed_password=hash_password("employee123"),
             created_at=datetime.now(timezone.utc),
         )
 
@@ -123,7 +125,7 @@ def seed_database():
             org_id=globex.id,
             role_id=globex_admin.id,
             email="admin@globex.com",
-            hashed_password="dummy_hash_admin",
+            hashed_password=hash_password("admin123"),
             created_at=datetime.now(timezone.utc),
         )
 
@@ -131,7 +133,7 @@ def seed_database():
             org_id=globex.id,
             role_id=globex_employee.id,
             email="employee@globex.com",
-            hashed_password="dummy_hash_employee",
+            hashed_password=hash_password("employee123"),
             created_at=datetime.now(timezone.utc),
         )
 
