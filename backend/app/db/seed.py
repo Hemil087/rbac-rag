@@ -156,7 +156,7 @@ def seed_database():
         acme_hr = Document(
             org_id=acme.id,
             filename="acme_hr_policy.pdf",
-            storage_path="/data/acme/acme_hr_policy.pdf",
+            storage_path="/app/storage/acme/acme_hr_policy.pdf",
             file_type="pdf",
             file_size=125000,
             created_at=datetime.now(timezone.utc),
@@ -166,7 +166,7 @@ def seed_database():
         acme_engineering = Document(
             org_id=acme.id,
             filename="engineering_handbook.pdf",
-            storage_path="/data/acme/engineering_handbook.pdf",
+            storage_path="/app/storage/acme/engineering_handbook.pdf",
             file_type="pdf",
             file_size=245000,
             created_at=datetime.now(timezone.utc),
@@ -176,7 +176,7 @@ def seed_database():
         acme_sales = Document(
             org_id=acme.id,
             filename="sales_playbook.pdf",
-            storage_path="/data/acme/sales_playbook.pdf",
+            storage_path="/app/storage/acme/sales_playbook.pdf",
             file_type="pdf",
             file_size=185000,
             created_at=datetime.now(timezone.utc),
@@ -186,7 +186,7 @@ def seed_database():
         globex_hr = Document(
             org_id=globex.id,
             filename="globex_hr_policy.pdf",
-            storage_path="/data/globex/globex_hr_policy.pdf",
+            storage_path="/app/storage/globex/globex_hr_policy.pdf",
             file_type="pdf",
             file_size=110000,
             created_at=datetime.now(timezone.utc),
@@ -196,7 +196,7 @@ def seed_database():
         globex_finance = Document(
             org_id=globex.id,
             filename="finance_policy.pdf",
-            storage_path="/data/globex/finance_policy.pdf",
+            storage_path="/app/storage/globex/finance_policy.pdf",
             file_type="pdf",
             file_size=210000,
             created_at=datetime.now(timezone.utc),

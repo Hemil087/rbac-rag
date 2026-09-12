@@ -9,3 +9,7 @@ pwdlib[argon2]
 python-jose[cryptography]
 email-validator
 httpx
+python-multipart
+pymupdf
+sentence-transformers
+openai
