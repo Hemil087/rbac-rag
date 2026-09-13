@@ -22,28 +22,40 @@ client = OpenAI(
 def generate_answer(
     question: str,
     context: str,
+    conversation_history: list[dict] | None = None,
 ) -> str:
+
+    messages = [
+        {
+            "role": "system",
+            "content": (
+                "You are a helpful enterprise knowledge assistant. "
+                "Answer the user's question using the provided context "
+                "and conversation history. "
+                "Use only information supported by the context. "
+                "If the answer cannot be found in the context, say "
+                "that you do not have enough information to answer. "
+                "Do not invent facts."
+            ),
+        }
+    ]
+
+    if conversation_history:
+        messages.extend(conversation_history)
+
+    messages.append(
+        {
+            "role": "user",
+            "content": (
+                f"Context:\n\n{context}\n\n"
+                f"Question:\n\n{question}"
+            ),
+        }
+    )
+
     response = client.chat.completions.create(
         model=GROQ_MODEL,
-        messages=[
-            {
-                "role": "system",
-                "content": (
-                    "You are a helpful enterprise knowledge assistant. "
-                    "Answer the user's question using only the provided "
-                    "context. If the answer cannot be found in the "
-                    "context, say that you do not have enough information "
-                    "to answer. Do not invent facts."
-                ),
-            },
-            {
-                "role": "user",
-                "content": (
-                    f"Context:\n\n{context}\n\n"
-                    f"Question:\n\n{question}"
-                ),
-            },
-        ],
+        messages=messages,
     )
 
     return response.choices[0].message.content

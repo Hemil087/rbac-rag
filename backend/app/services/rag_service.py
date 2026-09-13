@@ -42,9 +42,9 @@ def generate_rag_answer(
     question: str,
     org_id: int,
     role_id: int,
+    conversation_history: list[dict] | None = None,
     top_k: int = 5,
-) -> str:
-
+):
     context_chunks = retrieve_context(
         db=db,
         question=question,
@@ -57,7 +57,7 @@ def generate_rag_answer(
         return (
             "I could not find any relevant information "
             "in the documents you have access to."
-        )
+        ), []
 
     context = "\n\n".join(
         [
@@ -73,6 +73,16 @@ def generate_rag_answer(
     answer = call_llm(
         question=question,
         context=context,
+        conversation_history=conversation_history,
     )
 
-    return answer
+    sources = [
+        {
+            "document_id": chunk["document_id"],
+            "chunk_id": chunk["chunk_id"],
+            "chunk_index": chunk["chunk_index"],
+        }
+        for chunk in context_chunks
+    ]
+
+    return answer, sources
