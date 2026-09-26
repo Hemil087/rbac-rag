@@ -15,10 +15,8 @@ def create_conversation(
         org_id=org_id,
         title=title,
     )
-
     db.add(conversation)
     db.flush()
-
     return conversation
 
 
@@ -36,5 +34,33 @@ def get_user_conversation(
             Conversation.org_id == org_id,
         )
     )
-
     return db.execute(statement).scalar_one_or_none()
+
+
+def get_user_conversations(
+    db: Session,
+    user_id: int,
+    org_id: int,
+):
+    statement = (
+        select(Conversation)
+        .where(
+            Conversation.user_id == user_id,
+            Conversation.org_id == org_id,
+        )
+        .order_by(Conversation.updated_at.desc())
+    )
+    return db.execute(statement).scalars().all()
+
+
+def update_conversation(db: Session, conversation: Conversation, **kwargs):
+    for key, value in kwargs.items():
+        if value is not None:
+            setattr(conversation, key, value)
+    db.flush()
+    return conversation
+
+
+def delete_conversation(db: Session, conversation: Conversation):
+    db.delete(conversation)
+    db.flush()

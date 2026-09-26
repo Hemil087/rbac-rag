@@ -1,20 +1,21 @@
 services:
   backend:
-    build : .
+    build: .
     container_name: rbac-rag-backend
     ports:
       - "8000:8000"
     volumes:
       - .:/app
     environment:
-      POSTGRES_USER : ${POSTGRES_USER}
-      POSTGRES_PASSWORD : ${POSTGRES_PASSWORD}
-      POSTGRES_DB : ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
       JWT_SECRET_KEY: ${JWT_SECRET_KEY}
       JWT_ALGORITHM: ${JWT_ALGORITHM}
       JWT_ACCESS_TOKEN_EXPIRE_MINUTES: ${JWT_ACCESS_TOKEN_EXPIRE_MINUTES}
       GROQ_API_KEY: ${GROQ_API_KEY}
       GROQ_MODEL: ${GROQ_MODEL}
+      RAG_SIMILARITY_THRESHOLD: ${RAG_SIMILARITY_THRESHOLD}
       PYTHONPATH: /app
     depends_on:
       - postgres
@@ -24,9 +25,9 @@ services:
     image: pgvector/pgvector:pg16
     container_name: rbac-rag-postgres
     environment:
-      POSTGRES_USER : ${POSTGRES_USER}
-      POSTGRES_PASSWORD : ${POSTGRES_PASSWORD}
-      POSTGRES_DB : ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
     ports:
       - '5432:5432'
     volumes:

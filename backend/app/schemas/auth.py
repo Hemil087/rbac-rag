@@ -12,3 +12,5 @@ class CurrentUser(BaseModel):
     user_id: int
     org_id: int
     role_id: int
+    email: str | None = None
+    role_name: str | None = None

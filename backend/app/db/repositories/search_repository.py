@@ -1,8 +1,11 @@
+import os
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 
 from app.db.models import Document, DocumentChunk, DocumentPermission
-
+RAG_SIMILARITY_THRESHOLD = float(
+    os.getenv("RAG_SIMILARITY_THRESHOLD", "0.70")
+)
 
 def search_similar_chunks(
     db: Session,
@@ -33,6 +36,7 @@ def search_similar_chunks(
             Document.org_id == org_id,
             DocumentPermission.org_id == org_id,
             DocumentPermission.role_id == role_id,
+            distance<= RAG_SIMILARITY_THRESHOLD,
         )
         .order_by(distance)
         .limit(top_k)
